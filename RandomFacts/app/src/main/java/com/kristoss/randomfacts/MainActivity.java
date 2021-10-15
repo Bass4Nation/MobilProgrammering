@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -31,18 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
 
-        View inflatedView = getLayoutInflater().inflate(R.layout.fragment_frontpage,null);
-        String update_str = getString(R.string.title);
-
-        TextView text = (TextView) inflatedView.findViewById(R.id.textViewTitle1);
-        System.out.println("----------------------\n" + text.getText());
-        Log.d(TAG, "onCreate: " + text.getText());
-        text.setText(update_str);
-        System.out.println("----------------------\n" + text.getText());
-
-
         setContentView(R.layout.activity_main);
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,42 +47,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if(savedInstanceState == null) { // Rotate
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FrontPageFragment()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FrontpageActivity()).commit();
             navigationView.setCheckedItem(R.id.nav_frontpage);
         }
-
-        //----------- FrontPage ------------------
-//        TextView textViewTitle = findViewById(R.id.textViewContent);
-
-
-
-
-        //---------------------------------------
-
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_frontpage:
-                View inflatedView = getLayoutInflater().inflate(R.layout.fragment_frontpage,null);
-                String update_str = getString(R.string.title);
-
-                TextView text = (TextView) inflatedView.findViewById(R.id.textViewTitle1);
-                System.out.println("----------------------\n" + text.getText());
-                Log.d(TAG, "onCreate: " + text.getText());
-                text.setText(update_str);
-                System.out.println("----------------------\n" + text.getText());
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FrontPageFragment()).commit();
+                Intent myInt = new Intent(getApplicationContext(), FrontpageActivity.class);
+                startActivity(myInt);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FrontPageFragment()).commit();
 
                 break;
             case R.id.nav_documents:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DocumentFragment()).commit();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DocumentFragment()).commit();
                 break;
             case R.id.nav_quiz:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new QuizFragment()).commit();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new QuizFragment()).commit();
                 break;
         }
 
@@ -111,9 +84,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void frontPage(){
-        setContentView(R.layout.fragment_frontpage);
-        final TextView textViewTitle = findViewById(R.id.textViewTitle1);
-        textViewTitle.setText(R.string.title);
-    }
 }
