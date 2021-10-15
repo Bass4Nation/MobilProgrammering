@@ -22,13 +22,15 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.nav_activity_quiz);
 
         List<Data> list = new ArrayList<>();
-        list.add(new Data("Er det år 2021?",true));
-        list.add(new Data("Er det år 2020?",false));
+        list.add(new Data("Er det år 2021?","true"));
+        list.add(new Data("Er det år 2020?","false"));
 
         Random random = new Random();
         int number = random.nextInt(list.size());
 
         Data choosen = list.get(number);
+
+        String userChoose = "";
 
         // ----------- Id ------------
 
@@ -42,26 +44,35 @@ public class QuizActivity extends AppCompatActivity {
 
         question.setText(choosen.getQuestion());
 
-        if(choosen.isAnswer()){
-            answer.setText("Correct!!");
-        }else
-        {
-            answer.setText("Wrong.... Try again");
-        }
 
+
+        btnFalse.setOnClickListener(v -> {
+            // Code here executes on main thread after user presses button
+            answer.setText(answerCheck(choosen.getAnswer(),btnFalse.getText().toString()));
+        });
+
+        btnTrue.setOnClickListener(v -> {
+            // Code here executes on main thread after user presses button
+            answer.setText(answerCheck(choosen.getAnswer(),btnTrue.getText().toString()));
+        });
 
 
 
         // -------------Button next ----------------
-        btnNext.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myInt = new Intent(getApplicationContext(), QuizActivity.class);
-                startActivity(myInt);
-            }
+        btnNext.setOnClickListener((v -> {
+            Intent myInt = new Intent(getApplicationContext(), QuizActivity.class);
+            startActivity(myInt);
         }));
 
+    }
 
-
+    public String answerCheck(String answer, String chosen){
+        String valuation = "";
+        if(answer.equals(chosen)){
+           valuation  = "Correct!!";
+        }else{
+            valuation = "Wrong... Try again..";
+        }
+       return valuation;
     }
 }

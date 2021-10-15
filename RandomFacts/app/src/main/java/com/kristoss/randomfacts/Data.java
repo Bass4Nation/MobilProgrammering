@@ -1,8 +1,7 @@
 package com.kristoss.randomfacts;
 
 public class Data {
-    private String mainTitle, mainContext, url, question;
-    private boolean answer;
+    private String mainTitle, mainContext, url, question, answer;
 
 
     public Data(String mainTitle,String url, String mainContext) {
@@ -11,8 +10,16 @@ public class Data {
         this.url = url;
     }
 
-    public Data(String question, boolean answer) {
+    public Data(String question, String answer) {
         this.question = question;
+        this.answer = answer;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
         this.answer = answer;
     }
 
@@ -22,14 +29,6 @@ public class Data {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public boolean isAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(boolean answer) {
-        this.answer = answer;
     }
 
     public String getUrl() {
