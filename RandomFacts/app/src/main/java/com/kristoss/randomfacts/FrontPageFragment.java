@@ -18,6 +18,14 @@ public class FrontPageFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View inflatedView = getLayoutInflater().inflate(R.layout.fragment_frontpage,null);
+        String update_str = getString(R.string.title);
+
+        TextView text = (TextView) inflatedView.findViewById(R.id.textViewTitle1);
+        System.out.println("----------------------\n" + text.getText());
+        Log.d(TAG, "onCreate: " + text.getText());
+        text.setText(update_str);
+        System.out.println("----------------------\n" + text.getText());
 
         return inflater.inflate(R.layout.fragment_frontpage, container,false);
     }
