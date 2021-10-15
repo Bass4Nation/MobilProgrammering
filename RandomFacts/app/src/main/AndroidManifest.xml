@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomFacts">
         <activity
+            android:name=".QuizActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RandomFacts.NoActionBar"
+        />
+        <activity
             android:name=".FrontpageActivity"
             android:exported="true"
             android:theme="@style/Theme.RandomFacts.NoActionBar">
@@ -18,12 +23,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.RandomFacts.NoActionBar">
-
         </activity>
     </application>
 

@@ -1,13 +1,35 @@
 package com.kristoss.randomfacts;
 
 public class Data {
-    private String mainTitle, mainContext, url;
+    private String mainTitle, mainContext, url, question;
+    private boolean answer;
 
 
     public Data(String mainTitle,String url, String mainContext) {
         this.mainTitle = mainTitle;
         this.mainContext = mainContext;
         this.url = url;
+    }
+
+    public Data(String question, boolean answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public boolean isAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(boolean answer) {
+        this.answer = answer;
     }
 
     public String getUrl() {
