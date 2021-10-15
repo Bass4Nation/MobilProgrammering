@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class QuizActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class QuizActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Button btnTrue, btnFalse, btnNext;
     TextView question, answer;
     DrawerLayout drawer;
@@ -31,9 +31,12 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_activity_quiz);
 
+        //-------------- Bare for test informasjon ----------------------------
         List<Data> list = new ArrayList<>();
-        list.add(new Data("Er det år 2021?","true"));
-        list.add(new Data("Er det år 2020?","false"));
+        list.add(new Data("Er det år 2021?", "true"));
+        list.add(new Data("Er det år 2020?", "false"));
+        list.add(new Data("Kom Apex Legends ut i 2019?", "true"));
+        list.add(new Data("Er Android bedre enn iOS?", "true"));
 
         Random random = new Random();
         int number = random.nextInt(list.size());
@@ -55,27 +58,24 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         question.setText(choosen.getQuestion());
 
 
-
         btnFalse.setOnClickListener(v -> {
             // Code here executes on main thread after user presses button
-            answer.setText(answerCheck(choosen.getAnswer(),btnFalse.getText().toString()));
+            answer.setText(answerCheck(choosen.getAnswer(), btnFalse.getText().toString()));
         });
 
         btnTrue.setOnClickListener(v -> {
             // Code here executes on main thread after user presses button
-            answer.setText(answerCheck(choosen.getAnswer(),btnTrue.getText().toString()));
+            answer.setText(answerCheck(choosen.getAnswer(), btnTrue.getText().toString()));
         });
-
 
 
         // -------------Button next ----------------
         btnNext.setOnClickListener((v -> {
-            Intent myInt = new Intent(getApplicationContext(), QuizActivity.class);
-            startActivity(myInt);
+            Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
+            startActivity(quiz);
         }));
 
-
-
+// ---------------- Toolbar / NAV stuff -----------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -88,45 +88,40 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        if(savedInstanceState == null) { // Rotate
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FrontpageActivity()).commit();
+        if (savedInstanceState == null) {
             navigationView.setCheckedItem(R.id.nav_frontpage);
         }
 
 
     }
-
-    public String answerCheck(String answer, String chosen){
+//----------- Check answer function ---------
+    public String answerCheck(String answer, String chosen) {
         String valuation = "";
-        if(answer.equals(chosen)){
-           valuation  = "Correct!!";
-        }else{
+        if (answer.equals(chosen)) {
+            valuation = "Correct!!";
+        } else {
             valuation = "Wrong... Try again..";
         }
-       return valuation;
+        return valuation;
     }
 
-
+//--------------------------------------------------------------
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Intent frontpage = new Intent(getApplicationContext(), FrontpageActivity.class);
         Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
-        Intent doc = new Intent(getApplicationContext(), FrontpageActivity.class);
+        Intent doc = new Intent(getApplicationContext(), DocumentActivity.class);
 
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_frontpage:
                 startActivity(frontpage);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FrontPageFragment()).commit();
-
                 break;
             case R.id.nav_documents:
-                startActivity(quiz);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DocumentFragment()).commit();
+                startActivity(doc);
                 break;
             case R.id.nav_quiz:
                 startActivity(quiz);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new QuizFragment()).commit();
                 break;
         }
 
@@ -137,10 +132,10 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed(){
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }

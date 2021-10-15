@@ -2,7 +2,10 @@ package com.kristoss.randomfacts;
 
 public class Data {
     private String mainTitle, mainContext, url, question, answer;
-
+ /*
+ * Just a dummy file for test information. This file is going to be
+ * removed when all information goes online.
+ * */
 
     public Data(String mainTitle,String url, String mainContext) {
         this.mainTitle = mainTitle;
