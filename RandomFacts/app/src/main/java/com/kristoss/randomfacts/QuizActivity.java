@@ -1,5 +1,7 @@
 package com.kristoss.randomfacts;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,15 +11,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +45,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         list.add(new Data("Er det år 2020?", "false"));
         list.add(new Data("Kom Apex Legends ut i 2019?", "true"));
         list.add(new Data("Er Android bedre enn iOS?", "true"));
+
 
         Random random = new Random();
         int number = random.nextInt(list.size());
