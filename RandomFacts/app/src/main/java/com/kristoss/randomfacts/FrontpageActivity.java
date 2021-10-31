@@ -19,18 +19,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -46,46 +44,74 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
         setContentView(R.layout.nav_activity_frontpage);
 
 
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        int count = 0;
 
         //-------------- Bare for test informasjon ----------------------------
         List<Data> liste = new ArrayList<>();
-        liste.add(new Data("Computer", "https://en.wikipedia.org/wiki/Computer", "A computer is a machine that can be programmed to carry out sequences of arithmetic or logical operations automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks. A computer system is a \"complete\" computer that includes the hardware, operating system (main software), and peripheral equipment needed and used for \"full\" operation. This term may also refer to a group of computers that are linked and function together, such as a computer network or computer cluster."));
-        liste.add(new Data("Android (operating system)", "https://en.wikipedia.org/wiki/Android_(operating_system)", "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets. Android is developed by a consortium of developers known as the Open Handset Alliance and commercially sponsored by Google. It was unveiled in November 2007, with the first commercial Android device, the HTC Dream, being launched in September 2008."));
-        liste.add(new Data("Telephone", "https://en.wikipedia.org/wiki/Telephone", "A telephone is a telecommunications device that permits two or more users to conduct a conversation when they are too far apart to be heard directly. A telephone converts sound, typically and most efficiently the human voice, into electronic signals that are transmitted via cables and other communication channels to another telephone which reproduces the sound to the receiving user. The term is derived from Greek: τῆλε (tēle, far) and φωνή (phōnē, voice), together meaning distant voice. A common short form of the term is phone, which came into use almost immediately after the first patent was issued."));
-        liste.add(new Data("Android Studio", "https://en.wikipedia.org/wiki/Android_Studio", "Android Studio is the official[7] integrated development environment (IDE) for Google's Android operating system, built on JetBrains' IntelliJ IDEA software and designed specifically for Android development.[8] It is available for download on Windows, macOS and Linux based operating systems or as a subscription-based service in 2020.[9][10] It is a replacement for the Eclipse Android Development Tools (E-ADT) as the primary IDE for native Android application development."));
+        db.collection("facts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        String dbTitle, dbUrl, dbContent;
+                        dbTitle = document.getId();
+                        dbUrl = document.getData().get("url").toString();
+                        dbContent = document.getData().get("content").toString();
+                        liste.add(new Data(dbTitle,dbUrl,dbContent));
+// -------------- Bare slik som random virker selv om online database ikke virker
+                        if(liste.size() == 0){
+                            liste.add(new Data("Listen er tom","null", "Denne listen er tom"));
+                        }
 
-
-
-        Random random = new Random();
-        int randomInt = random.nextInt(liste.size());
-        Data choosen = liste.get(randomInt);
+                        Random random = new Random();
+                        int randomInt = random.nextInt(liste.size());
+                        Data choosen = liste.get(randomInt);
 
 //---------------- Id's ---------------------------
-        title = findViewById(R.id.textViewTitle1);
-        context = findViewById(R.id.textViewContent);
-        btnNext = findViewById(R.id.btnNext);
-        btnToSrc = findViewById(R.id.btnToSource);
+                        title = findViewById(R.id.textViewTitle1);
+                        context = findViewById(R.id.textViewContent);
+                        btnNext = findViewById(R.id.btnNext);
+                        btnToSrc = findViewById(R.id.btnToSource);
 //---------- UI -----------------------------------
-        title.setText(choosen.getMainTitle());
-        context.setText(choosen.getMainContext());
-        // -------- button --------------
-        btnToSrc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(choosen.getUrl()));
-                startActivity(i);
+                        title.setText(choosen.getMainTitle());
+                        context.setText(choosen.getMainContext());
+                        // -------- button --------------
+                        btnToSrc.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(choosen.getUrl()));
+                                startActivity(i);
+                            }
+                        });
+                        btnNext.setOnClickListener((new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent myInt = new Intent(getApplicationContext(), FrontpageActivity.class);
+                                startActivity(myInt);
+                            }
+                        }));
+
+
+
+                    }
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
             }
         });
-        btnNext.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myInt = new Intent(getApplicationContext(), FrontpageActivity.class);
-                startActivity(myInt);
-            }
-        }));
+
+
+//        liste.add(new Data("Computer", "https://en.wikipedia.org/wiki/Computer", "A computer is a machine that can be programmed to carry out sequences of arithmetic or logical operations automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks. A computer system is a \"complete\" computer that includes the hardware, operating system (main software), and peripheral equipment needed and used for \"full\" operation. This term may also refer to a group of computers that are linked and function together, such as a computer network or computer cluster."));
+//        liste.add(new Data("Android (operating system)", "https://en.wikipedia.org/wiki/Android_(operating_system)", "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets. Android is developed by a consortium of developers known as the Open Handset Alliance and commercially sponsored by Google. It was unveiled in November 2007, with the first commercial Android device, the HTC Dream, being launched in September 2008."));
+//        liste.add(new Data("Telephone", "https://en.wikipedia.org/wiki/Telephone", "A telephone is a telecommunications device that permits two or more users to conduct a conversation when they are too far apart to be heard directly. A telephone converts sound, typically and most efficiently the human voice, into electronic signals that are transmitted via cables and other communication channels to another telephone which reproduces the sound to the receiving user. The term is derived from Greek: τῆλε (tēle, far) and φωνή (phōnē, voice), together meaning distant voice. A common short form of the term is phone, which came into use almost immediately after the first patent was issued."));
+//        liste.add(new Data("Android Studio", "https://en.wikipedia.org/wiki/Android_Studio", "Android Studio is the official[7] integrated development environment (IDE) for Google's Android operating system, built on JetBrains' IntelliJ IDEA software and designed specifically for Android development.[8] It is available for download on Windows, macOS and Linux based operating systems or as a subscription-based service in 2020.[9][10] It is a replacement for the Eclipse Android Development Tools (E-ADT) as the primary IDE for native Android application development."));
+
+
 
 //---------------- Toolbar/ NAV stuff -------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);

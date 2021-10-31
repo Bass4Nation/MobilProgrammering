@@ -9,16 +9,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -35,42 +38,51 @@ public class DocumentActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.nav_activity_document);
 
 
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        for (int i = 0; i < list.size(); i++){
-//            Map<String, Object> city = new HashMap<>();
-//            Data element = list.get(i);
-//            city.put("id", i);
-//            city.put("question", element.getQuestion());
-//            city.put("answer", element.getAnswer());
-//
-//            db.collection("questions").document(element.getQuestion())
-//                    .set(city)
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//                            Log.d(TAG, "DocumentSnapshot successfully written!");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.w(TAG, "Error writing document", e);
-//                        }
-//                    });
-//        }
-
-
-
 //----------------ID ------------------------------
         save = findViewById(R.id.btn_save);
         title = findViewById(R.id.input_title);
         context = findViewById(R.id.input_context);
+
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         save.setOnClickListener(v ->{
 // Må få inplementert noe "POST" til online databasen med dette. Tenker det er det letteste her.
 // Men blir printet ut det som blir skrevet i appen
             System.out.println(title.getText());
             System.out.println(context.getText());
+
+            // Add a new document with a generated ID
+            Map<String, Object> doc = new HashMap<>();
+            doc.put("content", context.getText().toString());
+
+
+            db.collection("documents").document(title.getText().toString())
+                    .set(doc)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                            Context contextToast = getApplicationContext();
+                            CharSequence text = title.getText().toString() + ": saved!";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(contextToast, text, duration);
+                            toast.show();
+
+                            title.setText("");
+                            context.setText("");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
         });
 
 

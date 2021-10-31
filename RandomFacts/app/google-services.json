@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "874449738523",
-    "firebase_url": "https://random-facts-afa14-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "random-facts-afa14",
-    "storage_bucket": "random-facts-afa14.appspot.com"
+    "project_number": "575716056257",
+    "project_id": "mobilprogrammering-3a0e6",
+    "storage_bucket": "mobilprogrammering-3a0e6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:874449738523:android:5eee4fd12401913a34d1be",
+        "mobilesdk_app_id": "1:575716056257:android:f1e2707f817ce5277b8840",
         "android_client_info": {
           "package_name": "com.kristoss.randomfacts"
         }
       },
       "oauth_client": [
         {
-          "client_id": "874449738523-kintlf5c9sa6htd2pjocncj4b94o8gan.apps.googleusercontent.com",
+          "client_id": "575716056257-7846ls2hg19m98m0tqfjjrv3tcnlaqnb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3EG1WUwa-WKfYbUxdPAII_pDT-WWBlMs"
+          "current_key": "AIzaSyCSGmCTfPLV0g0ECVKcNV_vAX5wA9Dllnk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "874449738523-kintlf5c9sa6htd2pjocncj4b94o8gan.apps.googleusercontent.com",
+              "client_id": "575716056257-7846ls2hg19m98m0tqfjjrv3tcnlaqnb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
