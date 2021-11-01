@@ -33,9 +33,9 @@ import java.util.Random;
 
 
 public class FrontpageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    DrawerLayout drawer;
     TextView title, context;
     Button btnNext, btnToSrc;
-    DrawerLayout drawer;
 
 
     @Override
@@ -106,12 +106,6 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
         });
 
 
-//        liste.add(new Data("Computer", "https://en.wikipedia.org/wiki/Computer", "A computer is a machine that can be programmed to carry out sequences of arithmetic or logical operations automatically. Modern computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks. A computer system is a \"complete\" computer that includes the hardware, operating system (main software), and peripheral equipment needed and used for \"full\" operation. This term may also refer to a group of computers that are linked and function together, such as a computer network or computer cluster."));
-//        liste.add(new Data("Android (operating system)", "https://en.wikipedia.org/wiki/Android_(operating_system)", "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets. Android is developed by a consortium of developers known as the Open Handset Alliance and commercially sponsored by Google. It was unveiled in November 2007, with the first commercial Android device, the HTC Dream, being launched in September 2008."));
-//        liste.add(new Data("Telephone", "https://en.wikipedia.org/wiki/Telephone", "A telephone is a telecommunications device that permits two or more users to conduct a conversation when they are too far apart to be heard directly. A telephone converts sound, typically and most efficiently the human voice, into electronic signals that are transmitted via cables and other communication channels to another telephone which reproduces the sound to the receiving user. The term is derived from Greek: τῆλε (tēle, far) and φωνή (phōnē, voice), together meaning distant voice. A common short form of the term is phone, which came into use almost immediately after the first patent was issued."));
-//        liste.add(new Data("Android Studio", "https://en.wikipedia.org/wiki/Android_Studio", "Android Studio is the official[7] integrated development environment (IDE) for Google's Android operating system, built on JetBrains' IntelliJ IDEA software and designed specifically for Android development.[8] It is available for download on Windows, macOS and Linux based operating systems or as a subscription-based service in 2020.[9][10] It is a replacement for the Eclipse Android Development Tools (E-ADT) as the primary IDE for native Android application development."));
-
-
 
 //---------------- Toolbar/ NAV stuff -------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -138,6 +132,9 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
         Intent frontpage = new Intent(getApplicationContext(), FrontpageActivity.class);
         Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
         Intent doc = new Intent(getApplicationContext(), DocumentActivity.class);
+        Intent allDoc = new Intent(getApplicationContext(), AllDocuments.class);
+        Intent createQuiz = new Intent(getApplicationContext(), CreateQuiz.class);
+        Intent search = new Intent(getApplicationContext(), Search.class);
 
 
         switch (item.getItemId()) {
@@ -149,6 +146,15 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
                 break;
             case R.id.nav_quiz:
                 startActivity(quiz);
+                break;
+            case R.id.nav_all_documents:
+                startActivity(allDoc);
+                break;
+            case R.id.nav_create_quiz:
+                startActivity(createQuiz);
+                break;
+            case R.id.nav_search:
+                startActivity(search);
                 break;
         }
 

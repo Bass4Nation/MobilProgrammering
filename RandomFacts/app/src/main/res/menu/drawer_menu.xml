@@ -8,11 +8,20 @@
             android:id="@+id/nav_frontpage"
             android:title="Frontpage" />
         <item
-            android:id="@+id/nav_documents"
-            android:title="Documents" />
+            android:id="@+id/nav_search"
+            android:title="Search for facts" />
         <item
             android:id="@+id/nav_quiz"
             android:title="It's Quiz time" />
+        <item
+            android:id="@+id/nav_all_documents"
+            android:title="All documents" />
+        <item
+            android:id="@+id/nav_documents"
+            android:title="Create a document" />
+        <item
+            android:id="@+id/nav_create_quiz"
+            android:title="Create a true or false quiz" />
     </group>
 
 </menu>
