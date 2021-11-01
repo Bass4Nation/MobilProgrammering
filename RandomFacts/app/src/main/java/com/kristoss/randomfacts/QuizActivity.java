@@ -44,10 +44,9 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        int count = 0;
 
         //-------------- Bare for test informasjon ----------------------------
-        List<Data> liste = new ArrayList<>();
+        List<Data> list = new ArrayList<>();
         db.collection("quizTime")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -55,15 +54,11 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                List<Data> list = new ArrayList<>();
-                                String questions,answere;
-                                questions = document.getId();
-                                answere = document.getData().get("answer").toString();
 
-                                list.add(new Data(questions, answere));
+                                list.add(new Data(document.getId(), document.getData().get("answer").toString()));
 // -------------- Bare slik som random virker selv om online database ikke virker
                                 if(list.size() == 0){
-                                    list.add(new Data("Listen er tom","tom"));
+                                    list.add(new Data("Listen er tom","true"));
                                 }
 
                                 //-------------- Bare for test informasjon ----------------------------
@@ -78,7 +73,6 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
                                 question = findViewById(R.id.txtview_question);
                                 answer = findViewById(R.id.txtview_answer);
-                                btnNext = findViewById(R.id.btn_next);
                                 btnTrue = findViewById(R.id.btnTrue);
                                 btnFalse = findViewById(R.id.btnFalse);
 
@@ -100,10 +94,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
 
                                 // -------------Button next ----------------
-                                btnNext.setOnClickListener((v -> {
-                                    Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
-                                    startActivity(quiz);
-                                }));
+
 
                             }
                         } else {
@@ -111,8 +102,13 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
+        btnNext = findViewById(R.id.btn_next);
 
 
+        btnNext.setOnClickListener((v -> {
+            Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
+            startActivity(quiz);
+        }));
 
 // ---------------- Toolbar / NAV stuff -----------------
         Toolbar toolbar = findViewById(R.id.toolbar);

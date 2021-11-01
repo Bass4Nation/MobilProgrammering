@@ -1,5 +1,7 @@
 package com.kristoss.randomfacts;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,20 +9,103 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateQuiz extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     DrawerLayout drawer;
+    Button btnTrue, btnFalse;
+    EditText questionEdit;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_activity_create_quiz);
+
+//----------------ID ------------------------------
+        btnTrue = findViewById(R.id.btn_true_quiz);
+        btnFalse = findViewById(R.id.btn_false_quiz);
+        questionEdit =  findViewById(R.id.question);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+
+        btnTrue.setOnClickListener(v ->{
+            // Add a new document with a generated ID
+            Map<String, Object> doc = new HashMap<>();
+            doc.put("answer", "true");
+
+
+            db.collection("quizTime").document(questionEdit.getText().toString())
+                    .set(doc)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                            Context contextToast = getApplicationContext();
+                            CharSequence text = "Question saved!";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(contextToast, text, duration);
+                            toast.show();
+
+                            questionEdit.setText("");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        });
+        btnFalse.setOnClickListener(v ->{
+            // Add a new document with a generated ID
+            Map<String, Object> doc = new HashMap<>();
+            doc.put("answer", "false");
+
+
+            db.collection("quizTime").document(questionEdit.getText().toString())
+                    .set(doc)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                            Context contextToast = getApplicationContext();
+                            CharSequence text = "Question saved!";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(contextToast, text, duration);
+                            toast.show();
+
+                            questionEdit.setText("");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        });
+
 
 
 

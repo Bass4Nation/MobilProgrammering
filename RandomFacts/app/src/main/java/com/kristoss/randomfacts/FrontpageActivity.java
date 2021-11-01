@@ -46,7 +46,6 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        int count = 0;
 
         //-------------- Bare for test informasjon ----------------------------
         List<Data> liste = new ArrayList<>();
