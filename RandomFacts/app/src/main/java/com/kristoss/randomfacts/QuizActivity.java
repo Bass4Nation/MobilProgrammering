@@ -145,31 +145,42 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
     }
 
 //--------------------------------------------------------------
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent frontpage = new Intent(getApplicationContext(), FrontpageActivity.class);
-        Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
-        Intent doc = new Intent(getApplicationContext(), DocumentActivity.class);
+@Override
+public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    Intent frontpage = new Intent(getApplicationContext(), FrontpageActivity.class);
+    Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
+    Intent doc = new Intent(getApplicationContext(), DocumentActivity.class);
+    Intent allDoc = new Intent(getApplicationContext(), AllDocuments.class);
+    Intent createQuiz = new Intent(getApplicationContext(), CreateQuiz.class);
+    Intent search = new Intent(getApplicationContext(), Search.class);
 
 
-        switch (item.getItemId()) {
-            case R.id.nav_frontpage:
-                startActivity(frontpage);
-                break;
-            case R.id.nav_documents:
-                startActivity(doc);
-                break;
-            case R.id.nav_quiz:
-                startActivity(quiz);
-                break;
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
-
-        return true;
-
+    switch (item.getItemId()) {
+        case R.id.nav_frontpage:
+            startActivity(frontpage);
+            break;
+        case R.id.nav_documents:
+            startActivity(doc);
+            break;
+        case R.id.nav_quiz:
+            startActivity(quiz);
+            break;
+        case R.id.nav_all_documents:
+            startActivity(allDoc);
+            break;
+        case R.id.nav_create_quiz:
+            startActivity(createQuiz);
+            break;
+        case R.id.nav_search:
+            startActivity(search);
+            break;
     }
 
+    drawer.closeDrawer(GravityCompat.START);
+
+    return true;
+
+}
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {

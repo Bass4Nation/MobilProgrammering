@@ -13,13 +13,19 @@
         tools:targetApi="q">
         <activity
             android:name=".Search"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.RandomFacts.NoActionBar" />
+
         <activity
             android:name=".AllDocuments"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.RandomFacts.NoActionBar" />
+
         <activity
             android:name=".CreateQuiz"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.RandomFacts.NoActionBar" />
+
         <activity
             android:name=".DocumentActivity"
             android:exported="false"

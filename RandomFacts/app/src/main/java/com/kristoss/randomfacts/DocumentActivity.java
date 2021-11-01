@@ -111,6 +111,9 @@ public class DocumentActivity extends AppCompatActivity implements NavigationVie
         Intent frontpage = new Intent(getApplicationContext(), FrontpageActivity.class);
         Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
         Intent doc = new Intent(getApplicationContext(), DocumentActivity.class);
+        Intent allDoc = new Intent(getApplicationContext(), AllDocuments.class);
+        Intent createQuiz = new Intent(getApplicationContext(), CreateQuiz.class);
+        Intent search = new Intent(getApplicationContext(), Search.class);
 
 
         switch (item.getItemId()) {
@@ -122,6 +125,15 @@ public class DocumentActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.nav_quiz:
                 startActivity(quiz);
+                break;
+            case R.id.nav_all_documents:
+                startActivity(allDoc);
+                break;
+            case R.id.nav_create_quiz:
+                startActivity(createQuiz);
+                break;
+            case R.id.nav_search:
+                startActivity(search);
                 break;
         }
 

@@ -42,7 +42,7 @@ public class Search extends AppCompatActivity implements NavigationView.OnNaviga
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            navigationView.setCheckedItem(R.id.nav_search);
+            navigationView.setCheckedItem(R.id.nav_frontpage);
         }
 
     }

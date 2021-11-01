@@ -41,7 +41,7 @@ public class AllDocuments extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            navigationView.setCheckedItem(R.id.nav_all_documents);
+            navigationView.setCheckedItem(R.id.nav_frontpage);
         }
 
     }

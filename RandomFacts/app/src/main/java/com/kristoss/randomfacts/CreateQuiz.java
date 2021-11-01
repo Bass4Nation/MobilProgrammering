@@ -41,7 +41,7 @@ public class CreateQuiz extends AppCompatActivity implements NavigationView.OnNa
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            navigationView.setCheckedItem(R.id.nav_create_quiz);
+            navigationView.setCheckedItem(R.id.nav_frontpage);
         }
 
     }
