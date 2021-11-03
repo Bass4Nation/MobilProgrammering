@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +47,6 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
 
         /*------------------------------------------------------*/
 
-        List<Data> liste = new ArrayList<>();
 
         List<String> list = new ArrayList<>();
         list.add("Computer");
@@ -56,18 +56,6 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
         list.add("JavaScript");
         list.add("Java (programming language)");
 
-        liste.add(new Data("Computer"));
-        liste.add(new Data("Java (programming language)"));
-        liste.add(new Data("JavaScript"));
-        liste.add(new Data("HTML"));
-        liste.add(new Data("CSS"));
-        liste.add(new Data("Android Studio"));
-
-//        liste.add(new Data(dbTitle,dbUrl,dbContent));
-// -------------- Bare slik som random virker selv om online database ikke virker
-        if(liste.size() == 0){
-            liste.add(new Data("Listen er tom","null", "Denne listen er tom"));
-        }
 
         //---------------- Id's ---------------------------
         title = findViewById(R.id.textViewTitle1);
@@ -75,9 +63,11 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
         btnNext = findViewById(R.id.btnNext);
         btnToSrc = findViewById(R.id.btnToSource);
 
+        context.setMovementMethod(new ScrollingMovementMethod());
+
 
         Random random = new Random();
-        int randomInt = random.nextInt(liste.size());
+        int randomInt = random.nextInt(list.size());
         String choosen = list.get(randomInt);
 
         String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;

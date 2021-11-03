@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,9 @@ public class Search extends AppCompatActivity implements NavigationView.OnNaviga
                 btnNext = findViewById(R.id.btnNext);
                 btnToSrc = findViewById(R.id.btnToSource);
 
+                context.setMovementMethod(new ScrollingMovementMethod());
+
+
                 String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
                 String url = "https://en.wikipedia.org/wiki/" + choosen;
 
@@ -100,7 +104,8 @@ public class Search extends AppCompatActivity implements NavigationView.OnNaviga
 
                 }catch (Exception e){
                     System.out.println("Error : "+e);
-                    title.setText("Search result not found");
+                    String notFoundMessage = "Search result not found";
+                    title.setText(notFoundMessage);
                     context.setText("");
                 }
                 System.out.println("---------------------------------------------");
