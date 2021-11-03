@@ -8,25 +8,107 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Search extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     DrawerLayout drawer;
+    TextView title, context;
+    EditText searchResult;
+    Button btnNext, btnToSrc, btnSearch;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_activity_search);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+
+        /*------------------------------------------------------*/
+        btnSearch = findViewById(R.id.search_button);
+        searchResult = findViewById(R.id.search_field);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String choosen = searchResult.getText().toString();
+
+                //---------------- Id's ---------------------------
+                title = findViewById(R.id.textViewTitle1);
+                context = findViewById(R.id.textViewContent);
+                btnNext = findViewById(R.id.btnNext);
+                btnToSrc = findViewById(R.id.btnToSource);
+
+                String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
+                String url = "https://en.wikipedia.org/wiki/" + choosen;
+
+                try {
+                    System.out.println("---------------------------------------------");
+                    System.out.println("API : " + api);
+
+                    URL urls=new URL(api);
+
+                    System.out.println(urls.toString());
+
+                    URL oracle = new URL(api);
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(oracle.openStream()));
+
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null){
+                        JSONObject json = new JSONObject(inputLine);
+                        String content = json.getString("source");
+
+                        System.out.println(content);
+
+                        context.setText(content);
+                    }
+                    in.close();
+
+
+//---------- UI -----------------------------------
+                    title.setText(choosen);
+                    // -------- button --------------
+                    btnToSrc.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    });
+
+                }catch (Exception e){
+                    System.out.println("Error : "+e);
+                    title.setText("Search result not found");
+                    context.setText("");
+                }
+                System.out.println("---------------------------------------------");
 
 
 
-
-
-
+            }
+        });
 
 //---------------- Toolbar/ NAV stuff -------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);

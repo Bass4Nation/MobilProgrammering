@@ -100,10 +100,9 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
                 JSONObject json = new JSONObject(inputLine);
                 String content = json.getString("source");
 
+                System.out.println(content);
+
                 context.setText(content);
-
-//                System.out.println("----------- ende \n" + content);
-
             }
             in.close();
 
