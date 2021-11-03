@@ -18,6 +18,10 @@ public class Data {
         this.answer = answer;
     }
 
+    public Data(String mainTitle) {
+        this.mainTitle = mainTitle;
+    }
+
     public String getAnswer() {
         return answer;
     }
