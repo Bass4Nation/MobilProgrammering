@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -41,6 +43,8 @@ public class Search extends AppCompatActivity implements NavigationView.OnNaviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_activity_search);
+
+//        Må finne noe annet en dette for URL sjekk. Driver å sjekker ut Async. Hvordan det vil passe inn her.
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -82,10 +86,42 @@ public class Search extends AppCompatActivity implements NavigationView.OnNaviga
                     while ((inputLine = in.readLine()) != null){
                         JSONObject json = new JSONObject(inputLine);
                         String content = json.getString("source");
+                        List<String> tester = new ArrayList<>();
+                        List<String> tester2 = new ArrayList<>();
 
-                        System.out.println(content);
+                        Collections.addAll(tester, content.split(" "));
 
-                        context.setText(content);
+                        for(int i = 0; i < tester.size(); i++){
+                            String check = tester.get(i);
+                            if(check.equals("'''"+ choosen + "'''")){
+                                System.out.println("Found U");
+                                for(int y = 0; y < 100; y++){
+                                    tester2.add(tester.get(i+y));
+                                }
+                            }
+                            if(check.equals("('''"+ choosen + "''')")){
+                                System.out.println("Found U");
+                                for(int y = 0; y < 100; y++){
+                                    tester2.add(tester.get(i+y));
+                                }
+                            }
+                            if(check.equals("'''"+ choosen.toLowerCase() + "'''")){
+                                System.out.println("Found U");
+                                for(int y = 0; y < 100; y++){
+                                    tester2.add(tester.get(i+y));
+                                }
+                            }
+                        }
+                        String output;
+                        if(tester2.isEmpty()){
+                            output = TextUtils.join(" ", tester);
+                        }
+                        else{
+                            output = TextUtils.join(" ", tester2);
+                        }
+                        System.out.println(output);
+
+                        context.setText(output);
                     }
                     in.close();
 

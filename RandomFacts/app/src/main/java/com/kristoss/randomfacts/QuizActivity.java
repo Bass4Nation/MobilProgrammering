@@ -54,6 +54,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                System.out.println(document.getId() + "-----------------------------------------");
 
                                 list.add(new Data(document.getId(), document.getData().get("answer").toString()));
 // -------------- Bare slik som random virker selv om online database ikke virker
@@ -106,8 +107,10 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
 
         btnNext.setOnClickListener((v -> {
-            Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
-            startActivity(quiz);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
         }));
 
 // ---------------- Toolbar / NAV stuff -----------------

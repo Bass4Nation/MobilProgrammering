@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -40,22 +42,16 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_activity_frontpage);
+        //        Må finne noe annet en dette for URL sjekk. Driver å sjekker ut Async. Hvordan det vil passe inn her.
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
 
-
-        /*------------------------------------------------------*/
-
+        String eksWords = "Computer, Apex Legends, HTML, CSS, Android Studio, JavaScript, Java (programming language), Samsung, Wikipedia, Vue.js, Gradle, Android (operating system), React (JavaScript library), Next.js, Linux, Microsoft Windows";
 
         List<String> list = new ArrayList<>();
-        list.add("Computer");
-        list.add("HTML");
-        list.add("CSS");
-        list.add("Android Studio");
-        list.add("JavaScript");
-        list.add("Java (programming language)");
-
+        Collections.addAll(list, eksWords.split(","));
 
         //---------------- Id's ---------------------------
         title = findViewById(R.id.textViewTitle1);
@@ -63,36 +59,72 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
         btnNext = findViewById(R.id.btnNext);
         btnToSrc = findViewById(R.id.btnToSource);
 
+//        Viss scrolling trengs..
         context.setMovementMethod(new ScrollingMovementMethod());
 
-
+//       Velger Random fra en liste
         Random random = new Random();
         int randomInt = random.nextInt(list.size());
         String choosen = list.get(randomInt);
 
+//      API og weblink
         String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
         String url = "https://en.wikipedia.org/wiki/" + choosen;
 
         try {
+            URL urls = new URL(api);
             System.out.println("---------------------------------------------");
             System.out.println("API : " + api);
-
-            URL urls=new URL(api);
-
             System.out.println(urls.toString());
+
+
 
             URL oracle = new URL(api);
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(oracle.openStream()));
 
             String inputLine;
-            while ((inputLine = in.readLine()) != null){
+            while ((inputLine = in.readLine()) != null) {
                 JSONObject json = new JSONObject(inputLine);
                 String content = json.getString("source");
+                List<String> cSPLIT = new ArrayList<>();
+                List<String> cSPLIT100 = new ArrayList<>();
 
-                System.out.println(content);
+                Collections.addAll(cSPLIT, content.split(" "));
 
-                context.setText(content);
+                for (int i = 0; i < cSPLIT.size(); i++) {
+                    String check = cSPLIT.get(i);
+//                    Wikipedia har mange rare måter de finner ut hvor start infoen er.
+                    if (check.equals("'''" + choosen + "'''")) {
+                        System.out.println("Found U");
+                        for (int y = 0; y < 100; y++) {
+                            cSPLIT100.add(cSPLIT.get(i + y));
+                        }
+                    }
+                    if (check.equals("('''" + choosen + "''')")) {
+                        System.out.println("Found U");
+                        for (int y = 0; y < 100; y++) {
+                            cSPLIT100.add(cSPLIT.get(i + y));
+                        }
+                    }
+                    if (check.equals("'''" + choosen.toLowerCase() + "'''")) {
+                        System.out.println("Found U");
+                        for (int y = 0; y < 100; y++) {
+                            cSPLIT100.add(cSPLIT.get(i + y));
+                        }
+                    }
+                }
+                String output;
+                if (cSPLIT100.isEmpty()) {
+                    // om if statement ikke virker så viser den alt info istedenfor..
+//                    Som oftes er det når den leter etter noe med to ord ell mer.
+                    output = TextUtils.join(" ", cSPLIT);
+                } else {
+                    output = TextUtils.join(" ", cSPLIT100);
+                }
+                System.out.println(output);
+
+                context.setText(output);
             }
             in.close();
 
@@ -103,6 +135,7 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
             btnToSrc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    Går til nettleseren med url fra API
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
@@ -113,23 +146,17 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
             btnNext.setOnClickListener((new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent myInt = new Intent(getApplicationContext(), FrontpageActivity.class);
-                    startActivity(myInt);
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(getIntent());
+                    overridePendingTransition(0, 0);
                 }
             }));
 
-        }catch (Exception e){
-            System.out.println("Error : "+e);
+        } catch (Exception e) {
+            System.out.println("Error : " + e);
         }
         System.out.println("---------------------------------------------");
-
-
-
-
-
-        /*--------------------------------------------------------*/
-
-
 
 
 //---------------- Toolbar/ NAV stuff -------------------------------
