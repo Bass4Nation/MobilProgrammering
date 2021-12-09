@@ -2,6 +2,14 @@ package com.kristoss.randomfacts;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,18 +17,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,59 +29,49 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AllDocuments extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AllDocumentSingle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
-    ListView listView;
+//    ListView listView;
+    TextView title, content;
+    String docContent = "";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nav_activity_all_documents);
+        setContentView(R.layout.nav_activity_single_document);
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
+        String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
+        System.out.println(sessionId);
         //-------------- Bare for test informasjon ----------------------------
-        ArrayList<String> list = new ArrayList<>();
-        listView= findViewById(R.id.list_view_alldocuments);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        title = findViewById(R.id.single_title);
+        content = findViewById(R.id.single_content);
 
-        db.collection("documents")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        DocumentReference docRef = db.collection("documents").document(sessionId);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                System.out.println(document.getId() + "-----------------------------------------");
-                                list.add(document.getId());
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()){
+                                docContent = document.getData().get("content").toString();
+//                                Setter Tittel og dokumenttekst på siden
+                                title.setText(sessionId);
+                                content.setText(docContent);
+
+                            } else {
+                                System.out.println("Dokumentet eksisterer ikke.");
                             }
-                            listView.setAdapter(arrayAdapter);
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                            {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-                                {
-                                    System.out.println("klikket her");
-                                    //create an Intent to your new `Activity` with PKMN data
-                                    Intent singleDoc = new Intent(getBaseContext(), AllDocumentSingle.class);
-                                    //pass your pkmn number and name (from your `String` array) in the `Intent`, so it can be shown in the new `Activity`
-                                    singleDoc.putExtra("EXTRA_SESSION_ID", list.get(position));
-                                    //start your new Activity
-                                    startActivity(singleDoc);
-                                }
-                            });
                         } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
+                            Log.w(TAG, "Error getting document.", task.getException());
                         }
                     }
                 });
-
-
-
-
 
 
 
@@ -115,7 +106,7 @@ public class AllDocuments extends AppCompatActivity implements NavigationView.On
         Intent frontpage = new Intent(getApplicationContext(), FrontpageActivity.class);
         Intent quiz = new Intent(getApplicationContext(), QuizActivity.class);
         Intent doc = new Intent(getApplicationContext(), DocumentActivity.class);
-        Intent allDoc = new Intent(getApplicationContext(), AllDocuments.class);
+        Intent allDoc = new Intent(getApplicationContext(), AllDocumentSingle.class);
         Intent createQuiz = new Intent(getApplicationContext(), CreateQuiz.class);
         Intent search = new Intent(getApplicationContext(), Search.class);
 

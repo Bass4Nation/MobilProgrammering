@@ -22,6 +22,10 @@
             android:name=".AllDocuments"
             android:exported="false"
             android:theme="@style/Theme.RandomFacts.NoActionBar" />
+        <activity
+            android:name=".AllDocumentSingle"
+            android:exported="false"
+            android:theme="@style/Theme.RandomFacts.NoActionBar" />
 
         <activity
             android:name=".CreateQuiz"
