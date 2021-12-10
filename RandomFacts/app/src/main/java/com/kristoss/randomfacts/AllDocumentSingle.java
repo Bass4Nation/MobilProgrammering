@@ -31,9 +31,8 @@ import java.util.Objects;
 
 public class AllDocumentSingle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
-//    ListView listView;
     TextView title, content;
-    String docContent = "";
+    String docContent, docTitle;
 
 
 
@@ -45,7 +44,8 @@ public class AllDocumentSingle extends AppCompatActivity implements NavigationVi
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
+//        Lager en name/id som blir kalt på i neste activity.
+        String sessionId = getIntent().getStringExtra("ID_FOR_VALGTE_DOKUMENTET");
         System.out.println(sessionId);
         //-------------- Bare for test informasjon ----------------------------
         title = findViewById(R.id.single_title);
@@ -59,9 +59,10 @@ public class AllDocumentSingle extends AppCompatActivity implements NavigationVi
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if(document.exists()){
+                                docTitle = document.getData().get("title").toString();
                                 docContent = document.getData().get("content").toString();
 //                                Setter Tittel og dokumenttekst på siden
-                                title.setText(sessionId);
+                                title.setText(docTitle);
                                 content.setText(docContent);
 
                             } else {

@@ -54,21 +54,19 @@ public class AllDocuments extends AppCompatActivity implements NavigationView.On
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                System.out.println(document.getId() + "-----------------------------------------");
+                                System.out.println(document.getId());
                                 list.add(document.getId());
                             }
                             listView.setAdapter(arrayAdapter);
+//                            https://stackoverflow.com/questions/13281197/android-how-to-create-clickable-listview
+//                            https://stackoverflow.com/questions/2091465/how-do-i-pass-data-between-activities-in-android-application
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
                             {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                                 {
-                                    System.out.println("klikket her");
-                                    //create an Intent to your new `Activity` with PKMN data
                                     Intent singleDoc = new Intent(getBaseContext(), AllDocumentSingle.class);
-                                    //pass your pkmn number and name (from your `String` array) in the `Intent`, so it can be shown in the new `Activity`
-                                    singleDoc.putExtra("EXTRA_SESSION_ID", list.get(position));
-                                    //start your new Activity
+                                    singleDoc.putExtra("ID_FOR_VALGTE_DOKUMENTET", list.get(position));
                                     startActivity(singleDoc);
                                 }
                             });
