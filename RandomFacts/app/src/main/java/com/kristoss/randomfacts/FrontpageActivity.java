@@ -1,11 +1,14 @@
 package com.kristoss.randomfacts;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +21,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -48,115 +56,135 @@ public class FrontpageActivity extends AppCompatActivity implements NavigationVi
 
         StrictMode.setThreadPolicy(policy);
 
-        String eksWords = "Computer, Apex Legends, HTML, CSS, Android Studio, JavaScript, Java (programming language), Samsung, Wikipedia, Vue.js, Gradle, Android (operating system), React (JavaScript library), Next.js, Linux, Microsoft Windows";
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<String> list = new ArrayList<>();
-        Collections.addAll(list, eksWords.split(","));
 
-        //---------------- Id's ---------------------------
-        title = findViewById(R.id.textViewTitle1);
-        context = findViewById(R.id.textViewContent);
-        btnNext = findViewById(R.id.btnNext);
-        btnToSrc = findViewById(R.id.btnToSource);
+
+        db.collection("wiki_all")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.get("content");
+                                list.add(document.getData().get("title").toString());
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                        //---------------- Id's ---------------------------
+                        title = findViewById(R.id.textViewTitle1);
+                        context = findViewById(R.id.textViewContent);
+                        btnNext = findViewById(R.id.btnNext);
+                        btnToSrc = findViewById(R.id.btnToSource);
 
 //        Viss scrolling trengs..
-        context.setMovementMethod(new ScrollingMovementMethod());
+                        context.setMovementMethod(new ScrollingMovementMethod());
 
 //       Velger Random fra en liste
-        Random random = new Random();
-        int randomInt = random.nextInt(list.size());
-        String choosen = list.get(randomInt);
+                        Random random = new Random();
+                        int randomInt = random.nextInt(list.size());
+                        String choosen = list.get(randomInt);
 
 //      API og weblink
-        String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
-        String url = "https://en.wikipedia.org/wiki/" + choosen;
+                        String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
+                        String url = "https://en.wikipedia.org/wiki/" + choosen;
 
-        try {
-            URL urls = new URL(api);
-            System.out.println("---------------------------------------------");
-            System.out.println("API : " + api);
-            System.out.println(urls.toString());
+                        try {
+                            URL urls = new URL(api);
+                            System.out.println("---------------------------------------------");
+                            System.out.println("API : " + api);
+                            System.out.println(urls.toString());
 
 
 
-            URL oracle = new URL(api);
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(oracle.openStream()));
+                            URL oracle = new URL(api);
+                            BufferedReader in = new BufferedReader(
+                                    new InputStreamReader(oracle.openStream()));
 
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                JSONObject json = new JSONObject(inputLine);
-                String content = json.getString("source");
-                List<String> cSPLIT = new ArrayList<>();
-                List<String> cSPLIT100 = new ArrayList<>();
+                            String inputLine;
+                            while ((inputLine = in.readLine()) != null) {
+                                JSONObject json = new JSONObject(inputLine);
+                                String content = json.getString("source");
+                                List<String> cSPLIT = new ArrayList<>();
+                                List<String> cSPLIT100 = new ArrayList<>();
 
-                Collections.addAll(cSPLIT, content.split(" "));
+                                Collections.addAll(cSPLIT, content.split(" "));
 
-                for (int i = 0; i < cSPLIT.size(); i++) {
-                    String check = cSPLIT.get(i);
+                                for (int i = 0; i < cSPLIT.size(); i++) {
+                                    String check = cSPLIT.get(i);
 //                    Wikipedia har mange rare måter de finner ut hvor start infoen er.
-                    if (check.equals("'''" + choosen + "'''")) {
-                        System.out.println("Found U");
-                        for (int y = 0; y < 100; y++) {
-                            cSPLIT100.add(cSPLIT.get(i + y));
-                        }
-                    }
-                    if (check.equals("('''" + choosen + "''')")) {
-                        System.out.println("Found U");
-                        for (int y = 0; y < 100; y++) {
-                            cSPLIT100.add(cSPLIT.get(i + y));
-                        }
-                    }
-                    if (check.equals("'''" + choosen.toLowerCase() + "'''")) {
-                        System.out.println("Found U");
-                        for (int y = 0; y < 100; y++) {
-                            cSPLIT100.add(cSPLIT.get(i + y));
-                        }
-                    }
-                }
-                String output;
-                if (cSPLIT100.isEmpty()) {
-                    // om if statement ikke virker så viser den alt info istedenfor..
+                                    if (check.equals("'''" + choosen + "'''")) {
+                                        System.out.println("Found U");
+                                        for (int y = 0; y < 100; y++) {
+                                            cSPLIT100.add(cSPLIT.get(i + y));
+                                        }
+                                    }
+                                    if (check.equals("('''" + choosen + "''')")) {
+                                        System.out.println("Found U");
+                                        for (int y = 0; y < 100; y++) {
+                                            cSPLIT100.add(cSPLIT.get(i + y));
+                                        }
+                                    }
+                                    if (check.equals("'''" + choosen.toLowerCase() + "'''")) {
+                                        System.out.println("Found U");
+                                        for (int y = 0; y < 100; y++) {
+                                            cSPLIT100.add(cSPLIT.get(i + y));
+                                        }
+                                    }
+                                }
+                                String output;
+                                if (cSPLIT100.isEmpty()) {
+                                    // om if statement ikke virker så viser den alt info istedenfor..
 //                    Som oftes er det når den leter etter noe med to ord ell mer.
-                    output = TextUtils.join(" ", cSPLIT);
-                } else {
-                    output = TextUtils.join(" ", cSPLIT100);
-                }
-                System.out.println(output);
+                                    output = TextUtils.join(" ", cSPLIT);
+                                } else {
+                                    output = TextUtils.join(" ", cSPLIT100);
+                                }
+                                System.out.println(output);
 
-                context.setText(output);
-            }
-            in.close();
+                                context.setText(output);
+                            }
+                            in.close();
 
 
 //---------- UI -----------------------------------
-            title.setText(choosen);
-            // -------- button --------------
-            btnToSrc.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                            title.setText(choosen);
+                            // -------- button --------------
+                            btnToSrc.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
 //                    Går til nettleseren med url fra API
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                }
-            });
+                                    Intent i = new Intent(Intent.ACTION_VIEW);
+                                    i.setData(Uri.parse(url));
+                                    startActivity(i);
+                                }
+                            });
 
 
-            btnNext.setOnClickListener((new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(getIntent());
-                    overridePendingTransition(0, 0);
-                }
-            }));
+                            btnNext.setOnClickListener((new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    finish();
+                                    overridePendingTransition(0, 0);
+                                    startActivity(getIntent());
+                                    overridePendingTransition(0, 0);
+                                }
+                            }));
 
-        } catch (Exception e) {
-            System.out.println("Error : " + e);
-        }
-        System.out.println("---------------------------------------------");
+                        } catch (Exception e) {
+                            System.out.println("Error : " + e);
+                        }
+                        System.out.println("---------------------------------------------");
+
+                    }
+                });
+
+        String eksWords = "Computer, Apex Legends, HTML, CSS, Android Studio, JavaScript, Java (programming language), Samsung, Wikipedia, Vue.js, Gradle, Android (operating system), React (JavaScript library), Next.js, Linux, Microsoft Windows";
+
+//        Collections.addAll(list, eksWords.split(","));
+
 
 
 //---------------- Toolbar/ NAV stuff -------------------------------

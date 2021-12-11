@@ -2,6 +2,14 @@ package com.kristoss.randomfacts;
 
 import static android.content.ContentValues.TAG;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;
+import java.io.IOException;  // Import the IOException class to handle errors
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,13 +32,22 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class DocumentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     Button save;
     EditText title, context;
+    String titles;
+    String[] lines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +102,62 @@ public class DocumentActivity extends AppCompatActivity implements NavigationVie
                     });
         });
 
+//        Viss jeg skal sende mye data til databasen UNDER på send kanppen
+
+//        try {
+//            InputStream inputStream = getAssets().open("split1.txt");
+//            int size = inputStream.available();
+//            byte[] buffer = new byte[size];
+//            inputStream.read(buffer);
+//            titles = new String(buffer);
+////            System.out.println(titles);
+//            lines = titles.split("\\r?\\n");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        save.setOnClickListener(v ->{
+//
+//            System.out.println(lines[1]);
+//
+////            System.out.println(titles);
+//// Må få inplementert noe "POST" til online databasen med dette. Tenker det er det letteste her.
+//// Men blir printet ut det som blir skrevet i appen
+//
+//            // Add a new document with a generated ID
+//            for (String line : lines) {
+//                Map<String, Object> doc = new HashMap<>();
+//                doc.put("title", line);
+//
+//
+//                db.collection("wiki_all").document()
+//                        .set(doc)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Log.d(TAG, "DocumentSnapshot successfully written!");
+//                                Context contextToast = getApplicationContext();
+//                                CharSequence text = title.getText().toString() + ": saved!";
+//                                int duration = Toast.LENGTH_SHORT;
+//
+//                                Toast toast = Toast.makeText(contextToast, text, duration);
+//                                toast.show();
+//
+//                                title.setText("");
+//                                context.setText("");
+//
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.w(TAG, "Error writing document", e);
+//                            }
+//                        });
+//
+//            }
+//        });
+//
+//
 
 
 //--------------- NAV ---------------------------------
@@ -151,5 +224,4 @@ public class DocumentActivity extends AppCompatActivity implements NavigationVie
             super.onBackPressed();
         }
     }
-
 }
