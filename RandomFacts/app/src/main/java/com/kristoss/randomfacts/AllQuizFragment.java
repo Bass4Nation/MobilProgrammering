@@ -37,3 +37,5 @@ public class AllQuizFragment extends Fragment implements View.OnClickListener {
         ((MainActivity) getActivity()).changeFragment(new AllQuizFragment());
     }
 }
+
+

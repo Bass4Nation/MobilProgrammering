@@ -298,6 +298,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //---------- UI -----------------------------------
             titleSearch.setText(choosen);
+            btnToSrcSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+
 
         } catch (Exception e) {
             System.out.println("Error : " + e);
