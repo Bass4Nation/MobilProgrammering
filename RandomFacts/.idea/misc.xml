@@ -4,20 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/drawable/ic_android_black_24dp.xml" value="0.14375" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2703125" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/drawable/ic_documents_background.xml" value="0.14375" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/drawable/ic_documents_foreground.xml" value="0.14375" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_all_documents.xml" value="0.4" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_create_quiz.xml" value="0.264" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_document.xml" value="0.264" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_frontpage.xml" value="0.25" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_listview.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_main2.xml" value="0.6" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_quiz.xml" value="0.264" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_search.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/activity_single_document.xml" value="0.264" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/bottom_nav.xml" value="0.2" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/document_list.xml" value="0.176" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_a_document.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_all_documents.xml" value="0.2" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_all_documents_adapter.xml" value="0.4" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_all_quiz.xml" value="0.4" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_create_document.xml" value="0.12923397602918185" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_create_quiz.xml" value="0.12923397602918185" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_document.xml" value="0.1" />
-        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_frontpage.xml" value="0.1" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_frontpage.xml" value="0.2" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_quiz.xml" value="0.1" />
+        <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/fragment_search.xml" value="0.4" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/nav_activity_all_documents.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/nav_activity_create_quiz.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bass4Nation/Desktop/Github/MobilProgrammering/RandomFacts/app/src/main/res/layout/nav_activity_document.xml" value="0.25416666666666665" />

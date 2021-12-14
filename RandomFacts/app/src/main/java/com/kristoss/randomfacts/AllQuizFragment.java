@@ -9,26 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class FrontpageFragment extends Fragment implements View.OnClickListener {
-
+public class AllQuizFragment extends Fragment implements View.OnClickListener {
     View view;
-    Button btnFrontNext;
+    Button quizNext;
 
-    public FrontpageFragment(){
+    public AllQuizFragment(){
         // require a empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((MainActivity) getActivity()).frontPageContent();
-        view = inflater.inflate(R.layout.fragment_frontpage, container, false);
+        ((MainActivity) getActivity()).quizContent();
 
 
-        btnFrontNext = (Button) view.findViewById(R.id.btnNext);
-        btnFrontNext.setOnClickListener(this);
+        view = inflater.inflate(R.layout.fragment_all_quiz, container, false);
 
+        quizNext = (Button) view.findViewById(R.id.btn_quix_next);
+        quizNext.setOnClickListener(this);
 
         return view;
     }
@@ -36,6 +34,6 @@ public class FrontpageFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
 //        Når man trykker neste så skjer dette
-        ((MainActivity) getActivity()).changeFragment(new FrontpageFragment());
+        ((MainActivity) getActivity()).changeFragment(new AllQuizFragment());
     }
 }

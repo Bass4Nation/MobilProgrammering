@@ -2,26 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
+<!-- Elementer i side nav bar med alle elementene -->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_frontpage"
-            android:title="Frontpage" />
+            android:title="@string/frontpage" />
         <item
             android:id="@+id/nav_search"
-            android:title="Search for facts" />
+            android:title="@string/search_for_facts" />
         <item
             android:id="@+id/nav_quiz"
-            android:title="It's Quiz time" />
+            android:title="@string/it_s_quiz_time" />
         <item
             android:id="@+id/nav_all_documents"
-            android:title="All documents" />
+            android:title="@string/all_documents" />
         <item
             android:id="@+id/nav_documents"
-            android:title="Create a document" />
+            android:title="@string/create_a_document" />
         <item
             android:id="@+id/nav_create_quiz"
-            android:title="Create a true or false quiz" />
+            android:title="@string/create_a_true_or_false_quiz" />
     </group>
 
 </menu>

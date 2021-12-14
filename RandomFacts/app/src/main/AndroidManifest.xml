@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kristoss.randomfacts">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,35 +14,7 @@
         android:theme="@style/Theme.RandomFacts"
         tools:targetApi="q">
         <activity
-            android:name=".Search"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.RandomFacts.NoActionBar" />
-
-        <activity
-            android:name=".AllDocuments"
-            android:exported="false"
-            android:theme="@style/Theme.RandomFacts.NoActionBar" />
-        <activity
-            android:name=".AllDocumentSingle"
-            android:exported="false"
-            android:theme="@style/Theme.RandomFacts.NoActionBar" />
-
-        <activity
-            android:name=".CreateQuiz"
-            android:exported="false"
-            android:theme="@style/Theme.RandomFacts.NoActionBar" />
-
-        <activity
-            android:name=".DocumentActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RandomFacts.NoActionBar" />
-        <activity
-            android:name=".QuizActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RandomFacts.NoActionBar" />
-        <activity
-            android:name=".FrontpageActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.RandomFacts.NoActionBar">
             <intent-filter>
@@ -51,6 +24,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>

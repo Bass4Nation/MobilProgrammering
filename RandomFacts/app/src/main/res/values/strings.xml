@@ -5,4 +5,15 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title">Tisdatle</string>
     <string name="changeThis">change this plz</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="documents">Documents</string>
+    <string name="quiztime">QuizTime</string>
+    <string name="create_a_document">Create a document</string>
+    <string name="create_a_true_or_false_quiz">Create a true or false quiz</string>
+    <string name="all_documents">All documents</string>
+    <string name="it_s_quiz_time">It\'s Quiz time</string>
+    <string name="search_for_facts">Search for facts</string>
+    <string name="frontpage">Frontpage</string>
 </resources>
