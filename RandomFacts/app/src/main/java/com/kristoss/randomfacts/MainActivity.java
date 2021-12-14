@@ -57,12 +57,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView bottomNavigationView;
     DrawerLayout drawer;
     TextView title, context, question, answer, titleSearch, contextSearch, titleSingleDoc, contentSingleDoc;
-    Button btnNext, btnToSrc, quizBtnTrue, quizBtnFalse, quizBtnNext, btnNextSearch, btnToSrcSearch, btnSearch, saveDoc, btnTrueCreateQuiz, btnFalseCreateQuiz;
+    Button btnNext, btnToSrc, quizBtnTrue, quizBtnFalse, btnNextSearch, btnToSrcSearch, btnSearch;
     EditText searchResult, titleDoc, contextDoc, questionEdit;
-    ListView listView;
-    String titles, docContentSingle, docTitleSingle;
     String docContent, docTitle;
-    String[] lines;
 
 
     @Override
@@ -88,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        System.out.println(savedInstanceState);
         if (savedInstanceState == null) {
             changeFragment(new FrontpageFragment());
         }
@@ -108,7 +104,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<String> list = new ArrayList<>();
-        String[] firebaseCollections = {"wiki","wiki_all"};
+        String[] firebaseCollections = {"wiki", "wiki_all"};
+
+//        Velger å hente den som heter wiki siden det er mye mindre artikler i den delen av databasen
+//        kan sette fiirebaseColletion til 1 om man vil at den skal sjekke mellom 8 tusen artikler.
+//        Er over 16 millioner artikkler i wikipedia. Så fant ikke om det var en enkel måte å laste opp alle titler som csv eller txt i firebase.
 
         db.collection(firebaseCollections[0])
                 .get()
@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.get("content");
                                 list.add(document.getData().get("title").toString());
                             }
                         } else {
@@ -133,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         context.setMovementMethod(new ScrollingMovementMethod());
 
 //       Velger Random fra en liste
+//                        Å gjøre det på denne måten er veldig tungvint men ser ikke at det går å
+//                        incremente id med +1 på firebase. Så ser ikke en mulighet slik at jeg trenger bare å hente en artikkel.
+//                        Så nå henter den alle artikkler i databasen så velger den en av dem her.
                         Random random = new Random();
                         int randomInt = random.nextInt(list.size());
                         String choosen = list.get(randomInt);
@@ -140,14 +142,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //      API og weblink
                         String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
                         String url = "https://en.wikipedia.org/wiki/" + choosen;
-
+//                        ---------- Behandling av API -------------------
+// Her så leser den hvert ord i API requesten. Den sjekker etter mye. Men informasjonen er ikke enda riktig formatert for å bli vist enda
+//                        Har vært vanskelig å behandle denne api'en. Hadde jeg hatt mer tid, så skulle jeg ha fått den riktig behandlet.
+//                        Dette under er en veldig tungvint måte som den er behandlet på. Men virker ish som den skal.
+//                        Men krever litt resurser for å gjøre alt dette.
                         try {
-                            URL urls = new URL(api);
-                            System.out.println("---------------------------------------------");
-                            System.out.println("API : " + api);
-                            System.out.println(urls.toString());
-
-
                             URL oracle = new URL(api);
                             BufferedReader in = new BufferedReader(
                                     new InputStreamReader(oracle.openStream()));
@@ -165,19 +165,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     String check = cSPLIT.get(i);
 //                    Wikipedia har mange rare måter de finner ut hvor start infoen er.
                                     if (check.equals("'''" + choosen + "'''")) {
-                                        System.out.println("Found U");
                                         for (int y = 0; y < 100; y++) {
                                             cSPLIT100.add(cSPLIT.get(i + y));
                                         }
                                     }
                                     if (check.equals("('''" + choosen + "''')")) {
-                                        System.out.println("Found U");
                                         for (int y = 0; y < 100; y++) {
                                             cSPLIT100.add(cSPLIT.get(i + y));
                                         }
                                     }
                                     if (check.equals("'''" + choosen.toLowerCase() + "'''")) {
-                                        System.out.println("Found U");
                                         for (int y = 0; y < 100; y++) {
                                             cSPLIT100.add(cSPLIT.get(i + y));
                                         }
@@ -191,8 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 } else {
                                     output = TextUtils.join(" ", cSPLIT100);
                                 }
-                                System.out.println(output);
-
+//                                Også setter den ferdig behandlet tekst til textView'et på forsiden
                                 context.setText(output);
                             }
                             in.close();
@@ -201,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //---------- UI -----------------------------------
                             title.setText(choosen);
                             // -------- button --------------
+//                            Går bare til Api link adressen. Starter nettleseren på mobilen
                             btnToSrc.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -214,12 +211,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         } catch (Exception e) {
                             System.out.println("Error : " + e);
                         }
-                        System.out.println("---------------------------------------------");
-
                     }
                 });
-
-
     }
 
     //    ------------ Search Fragment ----------------------
@@ -250,11 +243,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String api = "https://en.wikipedia.org/w/rest.php/v1/page/" + choosen;
         String url = "https://en.wikipedia.org/wiki/" + choosen;
-
+//Alt av behandling er forklart i forside funskjonen
         try {
-            System.out.println("---------------------------------------------");
-            System.out.println("API : " + api);
-
             URL urls = new URL(api);
 
             System.out.println(urls.toString());
@@ -308,15 +298,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //---------- UI -----------------------------------
             titleSearch.setText(choosen);
-            // -------- button --------------
-            btnToSrcSearch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                }
-            });
 
         } catch (Exception e) {
             System.out.println("Error : " + e);
@@ -336,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-        //-------------- Bare for test informasjon ----------------------------
+        //-------------- Bare for å hente informasjon ----------------------------
         List<Data> list = new ArrayList<>();
         db.collection("quizTime")
                 .get()
@@ -353,13 +334,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     list.add(new Data("Listen er tom", "true"));
                                 }
 
-                                //-------------- Bare for test informasjon ----------------------------
+                                //-------------- Bare for å hente informasjon ----------------------------
                                 Random random = new Random();
                                 int number = random.nextInt(list.size());
 
                                 Data choosen = list.get(number);
-
-                                String userChoose = "";
 
                                 // ----------- Id ------------
 
@@ -408,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-        //-------------- Bare for test informasjon ----------------------------
+        //-------------- Bare for å hente informasjon ----------------------------
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         ArrayList<String> idList = new ArrayList<>();
         db.collection("documents")
@@ -418,11 +397,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                System.out.println(document.getId());
                                 list.add(document.getData());
                                 idList.add(document.getId());
                             }
-                            changeFragment(new AllDocumentsFragment(list,idList));
+                            changeFragment(new AllDocumentsFragment(list, idList));
 
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
@@ -480,9 +458,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         titleDoc = findViewById(R.id.input_title);
         contextDoc = findViewById(R.id.input_context);
 // Må få inplementert noe "POST" til online databasen med dette. Tenker det er det letteste her.
-// Men blir printet ut det som blir skrevet i appen
-        System.out.println(titleDoc.getText());
-        System.out.println(contextDoc.getText());
 
         // Add a new document with a generated ID
         Map<String, Object> doc = new HashMap<>();
@@ -610,10 +585,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                Går til forsiden med side nav og bottom nav
                 changeFragment(new FrontpageFragment());
                 break;
-            case R.id.nav_documents:
-//                Lage et dokument
-                changeFragment(new CreateDocumentFragment());
-                break;
             case R.id.nav_quiz:
             case R.id.quiz:
                 changeFragment(new AllQuizFragment());
@@ -622,12 +593,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.alldocuments:
                 allDocsContent();
                 break;
-            case R.id.nav_create_quiz:
-                changeFragment(new CreateQuizFragment());
-                break;
             case R.id.nav_search:
                 changeFragment(new SearchFragment());
                 break;
+            case R.id.nav_documents:
+//                Lage et dokument
+                changeFragment(new CreateDocumentFragment());
+                break;
+            case R.id.nav_create_quiz:
+                changeFragment(new CreateQuizFragment());
+                break;
+
         }
 
         drawer.closeDrawer(GravityCompat.START);
