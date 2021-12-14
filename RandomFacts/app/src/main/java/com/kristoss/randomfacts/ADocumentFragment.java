@@ -24,7 +24,7 @@ public class ADocumentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+//Kjører funksjonen som er laget i MainActivity
         ((MainActivity) getActivity()).singleDocData(data);
 
         // Inflate the layout for this fragment
